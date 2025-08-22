@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT 서비스 업계 핵심 지표 대시보드 - 당사 기준 분석</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #00a0b0;
+            --light-color: #e6f2ff;
+            --accent-color: #004c99;
+            --text-color: #333;
+            --white: #fff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: var(--white);
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+
+        .subsection-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin: 20px 0 15px 0;
+        }
+
+        .bullet-point {
+            margin: 8px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .bullet-point::before {
+            content: "•";
+            color: var(--primary-color);
+            font-size: 16px;
+            position: absolute;
+            left: 0;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .dashboard-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .dashboard-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .dashboard-table tr:hover {
+            background-color: var(--light-color);
+        }
+
+        .company-highlight {
+            background-color: #fff3cd !important;
+            font-weight: 600;
+        }
+
+        .blue-text {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .red-text {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            min-height: 400px;
+        }
+
+        .chart-canvas {
+            max-width: 500px;
+            max-height: 400px;
+        }
+
+        .analysis-item {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 4px solid var(--primary-color);
+            background-color: #f8f9fa;
+        }
+
+        .company-name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .ranking-change {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .no-change {
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .dashboard-table {
+                font-size: 10px;
+            }
+            
+            .dashboard-table th,
+            .dashboard-table td {
+                padding: 6px 4px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>25년 상반기 ITS 재무 지표 분석</h1>
+            <div class="subtitle">(2025년 상반기)</div>
+        </header>
+
+        <div class="section">
+            <h2 class="section-title">Executive Summary</h2>
+            
+            <div class="subsection-title">① 전년비 성장률 기준으로는 업계 최상위 성과, 영업이익 성장률 1위·매출 성장률 2위 달성</div>
+            <div class="bullet-point">당사 영업이익 성장률 67.87%로 업계 1위, 매출 성장률 6.57%로 업계 2위 기록</div>
+            <div class="bullet-point">삼성SDS 매출성장률 4.42%, LG CNS 영업이익성장률 29.24% 대비 당사가 성장세 측면에서 우수한 성적</div>
+            <div class="bullet-point">반면, 포스코DX는 매출(△28.2%), 영업이익(△32.9%) 모두 큰 폭 감소로 대조적 양상(그룹 철강산업 약세 영향)</div>
+
+            <div class="subsection-title">② 성장률은 우수하나, 매출 증가 규모는 주요 경쟁사 대비 상당한 격차가 여전히 존재</div>
+            <div class="bullet-point">전년비 매출 증가액 : 당사 776억원 vs. 삼성SDS 1,387억원, LG CNS 1,515억원, 현대오토에버 2,257억원</div>
+            <div class="bullet-point">당사 총 매출 업계 4위 수준에 머물러 있어, 상위권과의 규모 격차는 지속</div>
+            <div class="bullet-point">삼성SDS(32,787억원), LG CNS(26,715억원) 대비, 당사 매출 규모는 각각 30~40% 수준</div>
+
+            <div class="subsection-title">③ 수익성 개선을 통한 내부 효율화는 뚜렷한 성과이나, 지속적 사업 확장 모멘텀 필요</div>
+            <div class="bullet-point">당사 인당 영업이익 0.25억원(전년비 +0.1억원)으로 업계 최하위에서 중위권(3위) 수준으로 생산성 개선</div>
+            <div class="bullet-point">향후 매출 증가 절대 규모 확대를 위한, 신규 사업 발굴 및 기존 사업 확장 전략 필요</div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">재무 Dashboard - '25년 상반기 성과 ('24년 상반기 대비)</h2>
+            <div class="note">(억원, %)</div>
+            
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>지표</th>
+                        <th>삼성SDS</th>
+                        <th>LG CNS</th>
+                        <th>현대오토에버</th>
+                        <th>포스코DX</th>
+                        <th>당사</th>
+                        <th>당사 순위</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>매출</strong></td>
+                        <td>32,787<br/><span class="blue-text">(+1,387)</span></td>
+                        <td>26,715<br/><span class="blue-text">(+1,515)</span></td>
+                        <td>18,751<br/><span class="blue-text">(+2,257)</span></td>
+                        <td>5,696<br/><span class="red-text">(△2,235)</span></td>
+                        <td class="company-highlight">12,578<br/><span class="blue-text">(+776)</span></td>
+                        <td>4위</td>
+                    </tr>
+                    <tr>
+                        <td><strong>영업이익</strong></td>
+                        <td>4,297<br/><span class="blue-text">(+620)</span></td>
+                        <td>2,197<br/><span class="blue-text">(+497)</span></td>
+                        <td>1,081<br/><span class="blue-text">(+88)</span></td>
+                        <td>399<br/><span class="red-text">(△196)</span></td>
+                        <td class="company-highlight">855<br/><span class="blue-text">(+346)</span></td>
+                        <td><span class="ranking-change">4위 (+1)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>영업이익률</strong></td>
+                        <td>13.11%<br/><span class="blue-text">(+1.40%p)</span></td>
+                        <td>8.22%<br/><span class="blue-text">(+1.47%p)</span></td>
+                        <td>5.76%<br/><span class="red-text">(△0.26%p)</span></td>
+                        <td>7.01%<br/><span class="red-text">(△0.50%p)</span></td>
+                        <td class="company-highlight">6.80%<br/><span class="blue-text">(+2.48%p)</span></td>
+                        <td>4위</td>
+                    </tr>
+                    <tr>
+                        <td><strong>매출성장률</strong></td>
+                        <td>4.42%</td>
+                        <td>6.01%</td>
+                        <td>13.68%</td>
+                        <td>△28.18%</td>
+                        <td class="company-highlight">6.57%</td>
+                        <td>2위</td>
+                    </tr>
+                    <tr>
+                        <td><strong>영업이익성장률</strong></td>
+                        <td>16.88%</td>
+                        <td>29.24%</td>
+                        <td>8.86%</td>
+                        <td>△32.90%</td>
+                        <td class="company-highlight">67.87%</td>
+                        <td>1위</td>
+                    </tr>
+                    <tr>
+                        <td><strong>인당영업이익</strong></td>
+                        <td>0.41억원<br/><span class="blue-text">(+0.07)</span></td>
+                        <td>0.32억원<br/><span class="blue-text">(+0.07)</span></td>
+                        <td>0.20억원<br/><span class="blue-text">(+0.01)</span></td>
+                        <td>0.20억원<br/><span class="red-text">(△0.10)</span></td>
+                        <td class="company-highlight">0.25억원<br/><span class="blue-text">(+0.10)</span></td>
+                        <td><span class="ranking-change">3위 (+2)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>매출 대비 SG&A 비중</strong></td>
+                        <td>12.59%<br/><span class="blue-text">(△0.70%p)</span></td>
+                        <td>6.65%<br/><span class="blue-text">(△1.62%p)</span></td>
+                        <td>4.51%<br/><span class="blue-text">(△0.13%p)</span></td>
+                        <td>5.55%<br/><span class="red-text">(+1.02%p)</span></td>
+                        <td class="company-highlight">14.20%<br/><span class="blue-text">(△0.89%p)</span></td>
+                        <td>5위</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note">※ 매출 및 영업이익 단위: 억원 / 성장률 및 비중: % / 괄호 내는 전년 동기 대비 증감</div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Peer사 별 포지셔닝 분석</h2>
+            
+            <div class="chart-container">
+                <canvas id="radarChart" class="chart-canvas" style="height: 400px;"></canvas>
+            </div>
+
+            <div class="subsection-title">재무지표 기준 Peer사별 포지셔닝 분석</div>
+            
+            <div class="analysis-item">
+                <span class="company-name">삼성SDS</span>: 업계 최대 매출 32,787억원과 영업이익 4,297억원으로 절대적 규모 및 수익성 우위
+            </div>
+            
+            <div class="analysis-item">
+                <span class="company-name">LG CNS</span>: 매출 26,715억원과 이익성장률 29.24%로 안정적 규모와 지속 성장 동력 확보
+            </div>
+            
+            <div class="analysis-item">
+                <span class="company-name">현대오토에버</span>: 매출성장률 13.68%로 업계 최고 성장세, 자동차 IT 시장 선점 효과
+            </div>
+            
+            <div class="analysis-item">
+                <span class="company-name">포스코DX</span>: 매출 5,696억원으로 업계 최소 규모, 전방산업 약세로 전반적 성과 부진
+            </div>
+            
+            <div class="analysis-item">
+                <span class="company-name">당사</span>: 이익성장률 67.87%로 업계 1위, 내부 효율화를 통한 수익성 개선 성과 뚜렷
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 레이더 차트 데이터
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['매출액', '매출성장률', '영업이익', '이익성장률', '인당영업이익'],
+                datasets: [{
+                    label: '삼성SDS',
+                    data: [100, 32, 100, 25, 100],
+                    borderColor: '#FF6384',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2
+                }, {
+                    label: 'LG CNS',
+                    data: [81, 44, 51, 43, 78],
+                    borderColor: '#36A2EB',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2
+                }, {
+                    label: '현대오토에버',
+                    data: [57, 100, 25, 13, 49],
+                    borderColor: '#FFCE56',
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderWidth: 2
+                }, {
+                    label: '포스코DX',
+                    data: [17, 0, 9, 0, 49],
+                    borderColor: '#4BC0C0',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2
+                }, {
+                    label: '당사',
+                    data: [38, 48, 20, 100, 61],
+                    borderColor: '#9966FF',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#9966FF',
+                    pointBorderColor: '#9966FF'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: 'Malgun Gothic'
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            font: {
+                                family: 'Malgun Gothic',
+                                size: 10
+                            }
+                        },
+                        pointLabels: {
+                            font: {
+                                family: 'Malgun Gothic',
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDjl9OEnHujhjS%2FJatcjyjYzzuXSfMjhywm3agT8yp3%2B6FkWX7V0TlpEn%2FYtfkIwW8ejmCJ7bWE%2F4pAMhfOucTQHVoO0s3DN9hcA52pKnOkNhpXd7uRk3oR7zDvQpnlu9cEK04jyZa76TqjjEEcp6cyuRA7nVZamEIwpgLF2D9n8sN6vEoQHwbLggYPg5W%2B7goxXhRYYBnMkwehw9qvxm5Bzu5yyztzElvGPiNFyOo6YuWmkpFunU8GPSXZgfX%2Bzd5qvMBdjrn3Fl8aPRTSNZAcAXXL%2FHH%2BhFYcJJ8raDv%2Bg1upAhFTF%2BJSNzCWbbo8uSLPizZeRTg3CAKLcbUa6mFnZG6BRIqVhcyN7QTkPjU0iZ2mTHSxXtAlOm26THvYbLvcmO3QhHmMfZjIKBFW2XI3XIaf%2FW8%2F3SI0q2XraCZnxAnEeO7L7kZkNQbvM6ADoiwGFYyYfmrzg1xlWNy4zbfyB1jfMVEF%2Fkd%2FcnO2Xs1zmDr5FkpJVeEfEchiJ6j%2BOjvSutpb%2FVfnX5O5sLsRFeQ%2FE%3D";
+        window.__genspark_locale = "ko-KR";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDjl9OEnHujhjS/JatcjyjYzzuXSfMjhywm3agT8yp3+6FkWX7V0TlpEn/YtfkIwW8ejmCJ7bWE/4pAMhfOucTQHVoO0s3DN9hcA52pKnOkNhpXd7uRk3oR7zDvQpnlu9cEK04jyZa76TqjjEEcp6cyuRA7nVZamEIwpgLF2D9n8sN6vEoQHwbLggYPg5W+7goxXhRYYBnMkwehw9qvxm5Bzu5yyztzElvGPiNFyOo6YuWmkpFunU8GPSXZgfX+zd5qvMBdjrn3Fl8aPRTSNZAcAXXL/HH+hFYcJJ8raDv+g1upAhFTF+JSNzCWbbo8uSLPizZeRTg3CAKLcbUa6mFnZG6BRIqVhcyN7QTkPjU0iZ2mTHSxXtAlOm26THvYbLvcmO3QhHmMfZjIKBFW2XI3XIaf/W8/3SI0q2XraCZnxAnEeO7L7kZkNQbvM6ADoiwGFYyYfmrzg1xlWNy4zbfyB1jfMVEF/kd/cnO2Xs1zmDr5FkpJVeEfEchiJ6j+OjvSutpb/VfnX5O5sLsRFeQ/E=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
+
+
